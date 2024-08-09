@@ -1,19 +1,46 @@
-<div id="<%= dom_id quiz %>">
-  <p>
-    <strong>Title:</strong>
-    <%= quiz.title %>
+<div id="<%= dom_id @quiz %>" class="overflow-x-auto rounded-lg border border-gray-200 p-4 bg-white shadow-lg">
+  <p class="text-2xl font-bold text-gray-900 mb-4">
+    <strong>Title:</strong> <%= @quiz.title %>
   </p>
 
-  <p>
-    <strong>Description:</strong>
-    <%= quiz.description %>
+  <p class="text-gray-700 mb-6">
+    <strong>Description:</strong> <%= @quiz.description %>
   </p>
 
-  <h3>Questions</h3>
-  <%= link_to 'Add question', new_quiz_question_path(@quiz) %>
-  <ol>
-    <% quiz.questions.each do |question| %>
-      <li><%= question.question_text %></li>
-    <% end %>
-  </ol>
+  <h3 class="text-xl font-semibold text-gray-900 mb-4">Questions</h3>
+  <%= link_to 'Add question', new_quiz_question_path(@quiz), class: 'inline-block mb-4 rounded border border-indigo-600 px-4 py-2 text-sm font-medium text-indigo-600 hover:bg-indigo-600 hover:text-white focus:outline-none focus:ring active:bg-indigo-500' %>
+
+  <table id="questions" class="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
+    <thead class="text-left">
+      <tr>
+        <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">ID</th>
+        <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Question</th>
+        <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Answers</th>
+        <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Created At</th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-gray-200">
+      <% @quiz.questions.each do |question| %>
+        <tr>
+          <td class="whitespace-nowrap px-4 py-2 text-gray-700"><%= question.id %></td>
+          <td class="whitespace-nowrap px-4 py-2 text-gray-700"><%= question.question_text %></td>
+          <td class="whitespace-nowrap px-4 py-2 text-gray-700">
+            <ul class="list-disc list-inside">
+              <% question.answers.each do |answer| %>
+                <li><%= "--> " if answer.correct %><%= answer.answer_text %></li>
+              <% end %>
+            </ul>
+          </td>
+          <td class="whitespace-nowrap px-4 py-2 text-gray-700"><%= format_date(question.created_at) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 </div>
+
+<p>
+  <%= link_to "New quiz", new_quiz_path, class: btn_class %>
+</p>
+
+
+
