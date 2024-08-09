@@ -17,21 +17,28 @@
         <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Question</th>
         <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Answers</th>
         <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Created At</th>
+        <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Actions</th>
       </tr>
     </thead>
     <tbody class="divide-y divide-gray-200">
       <% @quiz.questions.each do |question| %>
         <tr>
           <td class="whitespace-nowrap px-4 py-2 text-gray-700"><%= question.id %></td>
-          <td class="whitespace-nowrap px-4 py-2 text-gray-700"><%= question.question_text %></td>
-          <td class="whitespace-nowrap px-4 py-2 text-gray-700">
+          <td class="whitespace-normal break-words max-w-xs px-4 py-2 text-gray-700"><%= question.question_text %></td>
+          <td class="whitespace-normal break-words max-w-xs px-4 py-2 text-gray-700">
             <ul class="list-disc list-inside">
               <% question.answers.each do |answer| %>
-                <li><%= "--> " if answer.correct %><%= answer.answer_text %></li>
+                <li class="<%= answer.correct ? 'text-green-500' : 'text-red-500' %>">
+                  <%= answer.answer_text %>
+                </li>
               <% end %>
             </ul>
           </td>
           <td class="whitespace-nowrap px-4 py-2 text-gray-700"><%= format_date(question.created_at) %></td>
+          <td class="whitespace-nowrap px-4 py-2 text-gray-700">
+            <%= link_to 'Edit', edit_question_path(question), class: 'inline-block rounded border border-indigo-600 px-4 py-2 text-sm font-medium text-indigo-600 hover:bg-indigo-600 hover:text-white focus:outline-none focus:ring active:bg-indigo-500' %>
+            <%= button_to 'Delete', question, method: :delete, class: 'inline-block rounded border border-red-600 px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-600 hover:text-white focus:outline-none focus:ring active:bg-red-500' %>
+          </td>
         </tr>
       <% end %>
     </tbody>
@@ -41,6 +48,3 @@
 <p>
   <%= link_to "New quiz", new_quiz_path, class: btn_class %>
 </p>
-
-
-
