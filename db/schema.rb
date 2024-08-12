@@ -37,7 +37,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_12_081036) do
 
   create_table "scores", force: :cascade do |t|
     t.integer "quiz_id", null: false
-    t.integer "score", null: false 
+    t.integer "score", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["quiz_id"], name: "index_scores_on_quiz_id"
