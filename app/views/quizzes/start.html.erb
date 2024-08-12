@@ -1,2 +1,22 @@
-<h1><%= @title %></h1>
-<p><%= @description %></p>
+<div class="container mx-auto px-4 py-8">
+  <h1 class="text-3xl font-bold text-gray-900 mb-6"><%= @title %></h1>
+  <p class="text-lg text-gray-700 mb-8"><%= @description %></p>
+
+  <ul class="space-y-6 mb-8">
+    <% @quizzes.each do |quiz| %>
+      <li class="border rounded-lg p-6 bg-white shadow-lg flex items-center justify-between">
+        <div>
+          <h2 class="text-xl font-semibold text-indigo-600 mb-2">
+            <%= link_to quiz.title, fill_quiz_path(quiz), class: 'hover:underline' %>
+          </h2>
+          <p class="text-gray-700"><%= quiz.description %></p>
+        </div>
+        <%= link_to 'Start', fill_quiz_path(quiz), class: 'inline-block rounded bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring active:bg-indigo-500' %>
+      </li>
+    <% end %>
+  </ul>
+
+  <div class="text-center">
+    <%= link_to 'Back to My Quizzes', quizzes_path, class: 'inline-block rounded bg-gray-600 px-4 py-2 text-sm font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring active:bg-gray-500' %>
+  </div>
+</div>
