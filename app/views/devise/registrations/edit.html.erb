@@ -1,0 +1,59 @@
+<h1 class="mb-4 text-3xl font-bold" style="text-align: left;">Edit Your Profile</h1>
+
+<div class="mb-4" style="text-align: left;">
+  <%= button_to "Log out", destroy_user_session_path, method: :delete, class: 'inline-block rounded bg-red-600 px-5 py-3 text-sm font-medium text-white transition hover:bg-red-700 focus:outline-none focus:ring' %>
+</div>
+
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, class: "table-responsive mx-auto w-75" }) do |f| %>
+  <%= render "devise/shared/error_messages", resource: resource %>
+
+  <table class="table table-borderless">
+    <tbody>
+      <tr>
+        <th scope="row" style="text-align: left; width: 200px;"><%= f.label :email, class: "form-label" %></th>
+        <td><%= f.email_field :email, class: "form-control", autofocus: true, autocomplete: "email" %></td>
+      </tr>
+
+      <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+        <tr>
+          <th scope="row" style="text-align: left;">Pending Confirmation</th>
+          <td class="text-info">Currently waiting confirmation for: <%= resource.unconfirmed_email %></td>
+        </tr>
+      <% end %>
+
+      <tr>
+        <th scope="row" style="text-align: left;"><%= f.label :password, class: "form-label" %></th>
+        <td>
+          <%= f.password_field :password, class: "form-control", autocomplete: "new-password" %>
+          <small class="form-text text-muted"><i>(Leave blank if you don't want to change it)</i></small>
+          <% if @minimum_password_length %>
+            <small class="form-text text-muted"><em><%= @minimum_password_length %> characters minimum</em></small>
+          <% end %>
+        </td>
+      </tr>
+
+      <tr>
+        <th scope="row" style="text-align: left;"><%= f.label :password_confirmation, class: "form-label" %></th>
+        <td><%= f.password_field :password_confirmation, class: "form-control", autocomplete: "new-password" %></td>
+      </tr>
+
+      <tr>
+        <th scope="row" style="text-align: left;"><%= f.label :current_password, class: "form-label" %></th>
+        <td>
+          <%= f.password_field :current_password, class: "form-control", autocomplete: "current-password" %>
+          <small class="form-text text-muted"><i>(We need your current password to confirm your changes)</i></small>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="flex justify-between mt-4">
+    <%= f.submit "Update Profile", class: 'inline-block rounded bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring active:bg-indigo-500' %>
+    <%= button_to "Cancel My Account", registration_path(resource_name), class: 'inline-block rounded bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700 focus:outline-none focus:ring active:bg-red-500', data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" }, method: :delete %>
+  </div>
+<% end %>
+
+<div class="text-center mt-3">
+  <%= link_to "Back", :back, class: 'inline-block rounded bg-gray-600 px-4 py-2 text-sm font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring active:bg-gray-500' %>
+</div>
+

@@ -1,9 +1,7 @@
-<h1><%= @quiz.title %></h1>
-<h2>New question</h2>
+<h1 class="mb-4 text-3xl font-bold" style="text-align: left;">New question for <%= @quiz.title %></h1>
 
 <%= render "form", question: @question %>
 
-
-<div class="mt-6">
-  <%= link_to "Cancel", @quiz %>
+<div class="text-left mt-6 mb-6">
+<%= link_to 'Back to My Quizzes', quizzes_path, class: 'inline-block rounded bg-gray-600 px-5 py-3 text-sm font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring active:bg-gray-500' %>
 </div>

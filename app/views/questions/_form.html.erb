@@ -1,9 +1,8 @@
 <%= form_with(model: question.persisted? ? question : [question.quiz, question], data: { controller: 'nested-form', nested_form_wrapper_selector_value: '.nested-form-wrapper' }) do |form| %>
   <% if question.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(question.errors.count, "error") %> prohibited this question from being saved:</h2>
-
-      <ul>
+    <div class="mb-4 p-4 bg-red-100 text-red-700 rounded">
+      <h2 class="text-lg font-semibold"><%= pluralize(question.errors.count, "error") %> prohibited this question from being saved:</h2>
+      <ul class="mt-2 list-disc list-inside">
         <% question.errors.each do |error| %>
           <li><%= error.full_message %></li>
         <% end %>
@@ -11,27 +10,41 @@
     </div>
   <% end %>
 
-    <template data-nested-form-target="template">
+  <div class="mb-4">
+    <%= form.label :question_text, class: "block text-lg font-medium text-gray-700" %>
+    <%= form.text_field :question_text, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
+  </div>
+
+  <div class="mb-4 space-y-4">
+    <%= form.fields_for :answers do |ff| %>
+      <div class="flex items-center space-x-4">
+        <%= ff.label :answer_text, class: "block text-sm font-medium text-gray-700" %>
+        <%= ff.text_field :answer_text, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
+        <%= ff.check_box :correct, class: "h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500" %>
+        <%= ff.label :correct, "Correct", class: "ml-2 block text-sm text-gray-900" %>
+        <button type="button" data-action="nested-form#remove" class="inline-block rounded bg-red-600 px-2 py-1 text-xs font-medium text-white hover:bg-red-700 focus:outline-none focus:ring active:bg-red-500">Remove</button>
+      </div>
+    <% end %>
+  </div>
+
+  <div data-nested-form-target="target" class="mb-4"></div>
+
+  <template data-nested-form-target="template">
     <%= form.fields_for :answers, Answer.new, child_index: 'NEW_RECORD' do |ff| %>
-      <%= render "answer_form", form: ff %>
+      <div class="flex items-center space-x-4">
+        <%= ff.label :answer_text, class: "block text-sm font-medium text-gray-700" %>
+        <%= ff.text_field :answer_text, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
+        <%= ff.check_box :correct, class: "h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500" %>
+        <%= ff.label :correct, "Correct", class: "ml-2 block text-sm text-gray-900" %>
+        <button type="button" data-action="nested-form#remove" class="inline-block rounded bg-red-600 px-2 py-1 text-xs font-medium text-white hover:bg-red-700 focus:outline-none focus:ring active:bg-red-500">Remove</button>
+      </div>
     <% end %>
   </template>
 
-  <div>
-    <%= form.label :question_text %>
-    <%= form.text_field :question_text %>
-
-    <%= form.fields_for :answers do |ff| %>
-      <%= render 'answer_form', form: ff %>
-    <% end %>
-
-    <div data-nested-form-target="target"></div>
-
-    <button type="button" data-action="nested-form#add" class='<%= btn_class %>'>Add answer</button>
-  </div>
-
-  <div class="mt-4">
-    <%= form.submit %>
+  <div class="flex space-x-2 mt-6">
+    <button type="button" data-action="nested-form#add" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring active:bg-indigo-500">Add Answer</button>
+    <%= form.submit "Save Question", class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500" %>
   </div>
 <% end %>
+
   

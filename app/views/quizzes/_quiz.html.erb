@@ -7,6 +7,11 @@
     <strong>Description:</strong> <%= @quiz.description %>
   </p>
 
+  <div class="flex space-x-2 mb-4">
+  <%= link_to "Edit this quiz", edit_quiz_path(@quiz), class: 'inline-block mb-4 rounded border border-indigo-600 px-4 py-2 text-sm font-medium text-indigo-600 hover:bg-indigo-600 hover:text-white focus:outline-none focus:ring active:bg-indigo-500' %>
+  <%= button_to "Destroy this quiz", @quiz, method: :delete, class: 'inline-block mb-4 rounded border border-red-600 px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-600 hover:text-white focus:outline-none focus:ring active:bg-red-500' %>
+  </div>
+
   <h3 class="text-xl font-semibold text-gray-900 mb-4">Questions</h3>
   <%= link_to 'Add question', new_quiz_question_path(@quiz), class: 'inline-block mb-4 rounded border border-indigo-600 px-4 py-2 text-sm font-medium text-indigo-600 hover:bg-indigo-600 hover:text-white focus:outline-none focus:ring active:bg-indigo-500' %>
 
@@ -36,15 +41,11 @@
           </td>
           <td class="whitespace-nowrap px-4 py-2 text-gray-700"><%= format_date(question.created_at) %></td>
           <td class="whitespace-nowrap px-4 py-2 text-gray-700">
-            <%= link_to 'Edit', edit_question_path(question), class: 'inline-block rounded border border-indigo-600 px-4 py-2 text-sm font-medium text-indigo-600 hover:bg-indigo-600 hover:text-white focus:outline-none focus:ring active:bg-indigo-500' %>
-            <%= button_to 'Delete', question, method: :delete, class: 'inline-block rounded border border-red-600 px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-600 hover:text-white focus:outline-none focus:ring active:bg-red-500' %>
+            <%= link_to 'Edit', edit_question_path(question), class: 'inline-block rounded-md bg-white px-4 py-2 text-sm text-blue-500 shadow-sm focus:relative' %>
+            <%= button_to 'Delete', question, method: :delete, class: 'inline-block rounded-md bg-white px-4 py-2 text-sm text-blue-500 shadow-sm focus:relative' %>
           </td>
         </tr>
       <% end %>
     </tbody>
   </table>
 </div>
-
-<p>
-  <%= link_to "New quiz", new_quiz_path, class: btn_class %>
-</p>

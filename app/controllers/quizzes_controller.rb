@@ -1,11 +1,12 @@
 class QuizzesController < ApplicationController
   before_action :set_quiz, only: %i[ show edit update destroy fill submit show_score ]
+  before_action :authenticate_user!
 
   # GET /quizzes or /quizzes.json
   def index
-    @quizzes = Quiz.all
+    @quizzes = current_user.quizzes  # Only show quizzes created by the current user
     @title = 'BrainBuster'
-    @description = 'These are all your quizzes. Feel free to edit them! :)'
+    @description = 'These are all your quizzes. Feel free to edit them and make new ones! :)'
   end
 
   # GET /start_quiz
@@ -37,8 +38,8 @@ class QuizzesController < ApplicationController
 
   # POST /quizzes or /quizzes.json
   def create
-    @quiz = Quiz.new(quiz_params)
-
+    @quiz = current_user.quizzes.build(quiz_params)  # Associate the quiz with the current user
+  
     respond_to do |format|
       if @quiz.save
         format.html do

@@ -1,5 +1,6 @@
 class ScoresController < ApplicationController
   before_action :set_quiz, only: [:index]
+  before_action :authenticate_user!
 
   def index
     @scores = @quiz.scores

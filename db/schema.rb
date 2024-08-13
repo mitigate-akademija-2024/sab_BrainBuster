@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_08_12_135524) do
+ActiveRecord::Schema[7.1].define(version: 2024_08_13_132144) do
   create_table "answers", force: :cascade do |t|
     t.integer "question_id"
     t.string "answer_text", null: false
@@ -33,6 +33,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_12_135524) do
     t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "user_id"
+    t.index ["user_id"], name: "index_quizzes_on_user_id"
   end
 
   create_table "scores", force: :cascade do |t|
@@ -40,7 +42,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_12_135524) do
     t.integer "score", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "user_id"
     t.index ["quiz_id"], name: "index_scores_on_quiz_id"
+    t.index ["user_id"], name: "index_scores_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -57,5 +61,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_12_135524) do
 
   add_foreign_key "answers", "questions"
   add_foreign_key "questions", "quizzes"
+  add_foreign_key "quizzes", "users"
   add_foreign_key "scores", "quizzes"
+  add_foreign_key "scores", "users"
 end
