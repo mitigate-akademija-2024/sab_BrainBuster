@@ -1,2 +1,38 @@
-<h1>Scores#show</h1>
-<p>Find me in app/views/scores/show.html.erb</p>
+<h1 class="mb-4 text-3xl font-bold" style="text-align: left;">
+  Score: <%= @score.score %> / <%= @quiz.questions.count %>
+</h1>
+
+<h2 class="mb-4 text-xl font-bold" style="text-align: left;"> Review Your Latest Answers </h2>
+<% @quiz.questions.each do |question| %>
+  <div class="question-review" style="margin-bottom: 40px; padding: 20px; border: 1px solid #ddd; border-radius: 8px; background-color: #f9f9f9;">
+    <h3 style="color: #2c3e50; font-weight: bold;"><%= question.question_text %></h3>
+
+    <p style="font-weight: bold; color: #2c3e50;">Your Answer:</p>
+    <% user_answer = @user_answers.find { |ua| ua.question_id == question.id } %>
+    <% if user_answer %>
+      <% answer = Answer.find(user_answer.answer_id) %>
+      <ul>
+        <li style="color: <%= answer.correct ? 'green' : 'red' %>; font-size: 16px;">
+        <%= answer.answer_text %>
+      </li>
+      </ul>
+    <% else %>
+      <p style="color: #e74c3c;">No answer provided.</p>
+    <% end %>
+
+    <p style="font-weight: bold; color: #2c3e50;">Correct Answer(s):</p>
+    <ul>
+      <% correct_answers = question.answers.where(correct: true) %>
+      <% correct_answers.each do |correct_answer| %>
+        <li style="color: green; font-size: 16px;">
+          <%= correct_answer.answer_text %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<div class="text-left mt-6 mb-6">
+  <%= link_to 'Back to My Quizzes', quizzes_path, class: 'inline-block rounded bg-gray-600 px-5 py-3 text-sm font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring active:bg-gray-500' %>
+</div>
+

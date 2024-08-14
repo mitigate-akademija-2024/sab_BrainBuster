@@ -7,6 +7,7 @@ class Quiz < ApplicationRecord
 
   has_many :questions, dependent: :destroy
   has_many :scores, dependent: :destroy
+  has_many :user_answers, dependent: :destroy
   
 
   protected

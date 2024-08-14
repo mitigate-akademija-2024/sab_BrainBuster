@@ -17,28 +17,30 @@
 
   <div class="mb-4 space-y-4">
     <%= form.fields_for :answers do |ff| %>
-      <div class="flex items-center space-x-4">
+      <li class="nested-form-wrapper flex items-center space-x-4" data-new-record="<%= ff.object.new_record? %>">
+        <%= ff.hidden_field :_destroy %>
         <%= ff.label :answer_text, class: "block text-sm font-medium text-gray-700" %>
         <%= ff.text_field :answer_text, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
         <%= ff.check_box :correct, class: "h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500" %>
         <%= ff.label :correct, "Correct", class: "ml-2 block text-sm text-gray-900" %>
         <button type="button" data-action="nested-form#remove" class="inline-block rounded bg-red-600 px-2 py-1 text-xs font-medium text-white hover:bg-red-700 focus:outline-none focus:ring active:bg-red-500">Remove</button>
-      </div>
+      </li>
     <% end %>
   </div>
 
   <div data-nested-form-target="target" class="mb-4"></div>
 
   <template data-nested-form-target="template">
-    <%= form.fields_for :answers, Answer.new, child_index: 'NEW_RECORD' do |ff| %>
-      <div class="flex items-center space-x-4">
+    <li class="nested-form-wrapper flex items-center space-x-4" data-new-record="true">
+      <%= form.fields_for :answers, Answer.new, child_index: 'NEW_RECORD' do |ff| %>
+        <%= ff.hidden_field :_destroy %>
         <%= ff.label :answer_text, class: "block text-sm font-medium text-gray-700" %>
         <%= ff.text_field :answer_text, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
         <%= ff.check_box :correct, class: "h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500" %>
         <%= ff.label :correct, "Correct", class: "ml-2 block text-sm text-gray-900" %>
         <button type="button" data-action="nested-form#remove" class="inline-block rounded bg-red-600 px-2 py-1 text-xs font-medium text-white hover:bg-red-700 focus:outline-none focus:ring active:bg-red-500">Remove</button>
-      </div>
-    <% end %>
+      <% end %>
+    </li>
   </template>
 
   <div class="flex space-x-2 mt-6">
@@ -46,5 +48,3 @@
     <%= form.submit "Save Question", class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500" %>
   </div>
 <% end %>
-
-  

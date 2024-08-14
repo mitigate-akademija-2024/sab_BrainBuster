@@ -1,5 +1,5 @@
 class QuizzesController < ApplicationController
-  before_action :set_quiz, only: %i[ show edit update destroy fill submit show_score ]
+  before_action :set_quiz, only: %i[ show edit update destroy fill ]
   before_action :authenticate_user!
 
   # GET /quizzes or /quizzes.json
@@ -14,7 +14,7 @@ class QuizzesController < ApplicationController
     @quizzes = Quiz.all
     @title = 'Start a Quiz'
     @description = 'Choose a quiz to start:'
-
+    
     respond_to do |format|
       format.html # renders start.html.erb
       format.json do
@@ -83,31 +83,6 @@ class QuizzesController < ApplicationController
     @questions = @quiz.questions.includes(:answers)
   end
 
-  # POST /quizzes/1/submit
-  def submit
-    @quiz = Quiz.find(params[:id])
-    submitted_answers = params[:answers] || {}
-  
-    score = calculate_score(@quiz, submitted_answers)
-    @score = score
-  
-    # Save the score if necessary
-    Score.create(quiz: @quiz, score: score)
-  
-    # Redirect to the show_score action to display the score
-    respond_to do |format|
-      format.html { redirect_to show_score_quiz_path(@quiz) }
-      format.json { render json: { score: score } }
-    end
-  end
-  
-  
-  # GET /quizzes/1/show_score
-  def show_score
-    @quiz = Quiz.find(params[:id])
-    @score = @quiz.scores.last
-  end
-
   private
 
   # Use callbacks to share common setup or constraints between actions.
@@ -119,27 +94,4 @@ class QuizzesController < ApplicationController
   def quiz_params
     params.require(:quiz).permit(:title, :description)
   end
-
-  # Calculate the user's score based on their answers
-  def calculate_score(quiz, submitted_answers)
-    correct_answers_count = 0
-  
-    quiz.questions.each do |question|
-      selected_answers = submitted_answers[question.id.to_s] || []
-  
-      # Clean up the selected answers: remove stray characters and filter out invalid entries
-      selected_answers = selected_answers.map do |answer|
-        answer.gsub(/[\[\]\"]/, '') 
-      end.reject { |id| id.blank? || id == "0" } 
-  
-      # Get the correct answers for the current question
-      correct_answers = question.answers.where(correct: true).pluck(:id).map(&:to_s)
-  
-      # Increment the count if selected answers exactly match the correct answers
-      correct_answers_count += 1 if selected_answers.sort == correct_answers.sort
-    end
-  
-    correct_answers_count
-  end 
-  
 end
