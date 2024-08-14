@@ -2,19 +2,34 @@ class QuizzesController < ApplicationController
   before_action :set_quiz, only: %i[ show edit update destroy fill ]
   before_action :authenticate_user!
 
-  # GET /quizzes or /quizzes.json
+  # GET /quizzes or /quizzes.
   def index
-    @quizzes = current_user.quizzes  # Only show quizzes created by the current user
-    @title = 'BrainBuster'
+    @quizzes = current_user.quizzes
+    @title = 'Your Quizzes'
     @description = 'These are all your quizzes. Feel free to edit them and make new ones! :)'
+
+    if params[:search].present?
+      search_term = "%#{params[:search].downcase}%"
+      @quizzes = current_user.quizzes.where("LOWER(title) LIKE ? OR LOWER(description) LIKE ?", search_term, search_term)
+    else
+      @quizzes = current_user.quizzes
+    end
   end
 
+
   # GET /start_quiz
+  
   def start
-    @quizzes = Quiz.all
     @title = 'Start a Quiz'
     @description = 'Choose a quiz to start:'
-    
+  
+    if params[:search].present?
+      search_term = "%#{params[:search].downcase}%"
+      @quizzes = Quiz.where("LOWER(title) LIKE ? OR LOWER(description) LIKE ?", search_term, search_term)
+    else
+      @quizzes = Quiz.all
+    end
+  
     respond_to do |format|
       format.html # renders start.html.erb
       format.json do
