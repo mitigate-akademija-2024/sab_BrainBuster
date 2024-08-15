@@ -14,7 +14,7 @@
 
   <div class="mb-4">
     <%= f.label :email, class: "block text-sm font-medium text-gray-700" %>
-    <%= f.email_field :email, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm", autofocus: true, autocomplete: "email" %>
+    <%= f.email_field :email, class: input_field, autofocus: true, autocomplete: "email" %>
   </div>
 
   <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
@@ -26,7 +26,7 @@
 
   <div class="mb-4">
     <%= f.label :password, class: "block text-sm font-medium text-gray-700" %>
-    <%= f.password_field :password, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm", autocomplete: "new-password" %>
+    <%= f.password_field :password, class: input_field, autocomplete: "new-password" %>
     <small class="form-text text-muted"><i>(Leave blank if you don't want to change it)</i></small>
     <% if @minimum_password_length %>
       <small class="form-text text-muted"><em><%= @minimum_password_length %> characters minimum</em></small>
@@ -35,24 +35,24 @@
 
   <div class="mb-4">
     <%= f.label :password_confirmation, class: "block text-sm font-medium text-gray-700" %>
-    <%= f.password_field :password_confirmation, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm", autocomplete: "new-password" %>
+    <%= f.password_field :password_confirmation, class: input_field, autocomplete: "new-password" %>
   </div>
 
   <div class="mb-4">
     <%= f.label :current_password, class: "block text-sm font-medium text-gray-700" %>
-    <%= f.password_field :current_password, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm", autocomplete: "current-password" %>
+    <%= f.password_field :current_password, class: input_field, autocomplete: "current-password" %>
     <small class="form-text text-muted"><i>(We need your current password to confirm your changes)</i></small>
   </div>
 
   <div class="flex space-x-2 mt-6">
-    <%= f.submit "Update Profile", class: 'inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500' %>
-    <%= button_to "Cancel My Account", registration_path(resource_name), method: :delete, data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" }, class: 'inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500' %>
+    <%= f.submit "Update Profile", class: btn_class %>
+    <%= button_to "Cancel My Account", registration_path(resource_name), method: :delete, data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" }, class: btn_red %>
   </div>
 <% end %>
 
 <div class="text-right mt-4">
   <div class="inline-flex gap-4">
-    <%= link_to 'Back to My Quizzes', quizzes_path, class: 'inline-block rounded bg-gray-600 px-5 py-3 text-sm font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring active:bg-gray-500' %>
+    <%= link_to 'Back to My Quizzes', quizzes_path, class: btn_back %>
     <%= button_to "Log out", destroy_user_session_path, method: :delete, class: 'inline-block rounded bg-red-600 px-5 py-3 text-sm font-medium text-white hover:bg-red-700 focus:outline-none focus:ring active:bg-red-500' %>
   </div>
 </div>

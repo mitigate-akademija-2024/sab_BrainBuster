@@ -3,12 +3,12 @@
 <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: 'login-form' }) do |f| %>
   <div class="field mb-4">
     <%= f.label :email, class: 'block font-bold text-gray-800 mb-2' %>
-    <%= f.email_field :email, class: 'w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-gray-500', autofocus: true, autocomplete: "email" %>
+    <%= f.email_field :email, class: input_field, autofocus: true, autocomplete: "email" %>
   </div>
 
   <div class="field mb-4">
     <%= f.label :password, class: 'block font-bold text-gray-800 mb-2' %>
-    <%= f.password_field :password, class: 'w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-gray-500', autocomplete: "current-password" %>
+    <%= f.password_field :password, class: input_field, autocomplete: "current-password" %>
   </div>
 
   <% if devise_mapping.rememberable? %>

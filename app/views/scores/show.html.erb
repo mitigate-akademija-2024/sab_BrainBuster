@@ -7,14 +7,16 @@
   <div class="question-review" style="margin-bottom: 40px; padding: 20px; border: 1px solid #ddd; border-radius: 8px; background-color: #f9f9f9;">
     <h3 style="color: #2c3e50; font-weight: bold;"><%= question.question_text %></h3>
 
-    <p style="font-weight: bold; color: #2c3e50;">Your Answer:</p>
-    <% user_answer = @user_answers.find { |ua| ua.question_id == question.id } %>
-    <% if user_answer %>
-      <% answer = Answer.find(user_answer.answer_id) %>
+    <p style="font-weight: bold; color: #2c3e50;">Your Answer(s):</p>
+    <% user_answers = @user_answers[question.id] %>
+    <% if user_answers && user_answers.any? %>
       <ul>
-        <li style="color: <%= answer.correct ? 'green' : 'red' %>; font-size: 16px;">
-        <%= answer.answer_text %>
-      </li>
+        <% user_answers.each do |user_answer| %>
+          <% answer = Answer.find(user_answer.answer_id) %>
+          <li style="color: <%= answer.correct ? 'green' : 'red' %>; font-size: 16px;">
+            <%= answer.answer_text %>
+          </li>
+        <% end %>
       </ul>
     <% else %>
       <p style="color: #e74c3c;">No answer provided.</p>
@@ -35,4 +37,3 @@
 <div class="text-left mt-6 mb-6">
   <%= link_to 'Back to My Quizzes', quizzes_path, class: 'inline-block rounded bg-gray-600 px-5 py-3 text-sm font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring active:bg-gray-500' %>
 </div>
-

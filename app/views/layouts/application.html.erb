@@ -13,17 +13,17 @@
   <body class="bg-white text-gray-800">
     <header class="bg-medium-blue p-4 shadow-md">
       <div class="container mx-auto flex justify-between items-center">
-        <h1 class="text-3xl font-bold text-[#ffffff]">BrainBuster</h1>
+        <h1 class="text-3xl font-bold text-white">BrainBuster</h1>
         <% if user_signed_in? %>
           <div class="flex gap-4">
-              <%= link_to "Profile", edit_user_registration_path, class: 'inline-block rounded bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring active:bg-indigo-500' %>
-              <%= link_to 'Take a Quiz', start_quiz_path, class: 'inline-block rounded bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring active:bg-indigo-500' %>
-              <%= link_to 'My Quizzes', quizzes_path, class: 'inline-block rounded bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring active:bg-indigo-500' %>
+              <%= link_to "Profile", edit_user_registration_path, class: btn_class %>
+              <%= link_to 'Take a Quiz', start_quiz_path, class: btn_class %>
+              <%= link_to 'My Quizzes', quizzes_path, class: btn_class %>
           </div>
         <% else %>
           <div class="flex gap-4">
-            <%= link_to "Sign Up", new_user_registration_path, class: 'inline-block rounded bg-green-600 px-5 py-3 text-sm font-medium text-white transition hover:bg-green-700 focus:outline-none focus:ring' %>
-            <%= link_to "Log In", new_user_session_path, class: 'inline-block rounded bg-blue-600 px-5 py-3 text-sm font-medium text-white transition hover:bg-blue-700 focus:outline-none focus:ring' %>
+            <%= link_to "Sign Up", new_user_registration_path, class: btn_green %>
+            <%= link_to "Log In", new_user_session_path, class: btn_class %>
           </div>
         <% end %>
       </div>

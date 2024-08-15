@@ -3,5 +3,6 @@ class UserAnswer < ApplicationRecord
   belongs_to :quiz
   belongs_to :question
   belongs_to :answer
+  belongs_to :score
 
 end

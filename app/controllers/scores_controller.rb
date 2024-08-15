@@ -13,9 +13,12 @@ class ScoresController < ApplicationController
     # Create a Score record for the user
     score = @quiz.scores.create!(user: current_user, score: score_value)
   
+    # Iterate over each submitted answer
     submitted_answers.each do |question_id, answer_ids|
+      # Convert answer_ids to an array and remove any "0" values
       filtered_answer_ids = Array(answer_ids).reject { |id| id == "0" }
   
+      # Create a UserAnswer for each selected answer
       filtered_answer_ids.each do |answer_id|
         answer = Answer.find(answer_id)
   
@@ -23,25 +26,24 @@ class ScoresController < ApplicationController
           user: current_user,
           quiz: @quiz,
           question_id: question_id,
-          answer_id: answer_id
+          answer_id: answer_id,
+          score_id: score.id # Associate the UserAnswer with the newly created score
         )
       end
     end
   
+    # Redirect to the score page with a success notice
     redirect_to quiz_score_path(@quiz, score), notice: "Your answers have been submitted."
   end
   
   
-
   def show
     @score = @quiz.scores.find(params[:id])
   
-    # Get the latest UserAnswer for each question
+    # Fetch user answers associated with this specific score
     @user_answers = UserAnswer
-                      .where(quiz: @quiz, user: current_user)
-                      .order(created_at: :desc)
+                      .where(quiz: @quiz, user: current_user, score: @score)
                       .group_by(&:question_id)
-                      .map { |question_id, answers| answers.first }
   end
   
   
